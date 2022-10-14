@@ -42,8 +42,9 @@ namespace WinFormsServer
               listensocket.Listen(10);//начинаем ждать гостей
                 while(true)
                 {
-                  Socket inComingListenSocket = listensocket.Accept();//дождались гостей
+                  Socket inComingListenSocket = listensocket.Accept();//дождались входящее соединение
                     MessageBox.Show("Кто-то пришёл");
+                    inComingListenSocket.Close();//закрываем соединение по завершении
                 }
                 
             }
