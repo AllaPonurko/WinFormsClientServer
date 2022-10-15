@@ -19,8 +19,8 @@ namespace WinFormsServer
 
         private void Start_Click(object sender, EventArgs e)
         {
-            SocketServer socketServer = new SocketServer(Convert.ToInt32(numPort.Text));
-            socketServer.Start();
+            SocketServer socketServer = new SocketServer("127.0.0.1", Convert.ToInt32(numPort.Text));
+            socketServer.StartServer();
         }
     }
 }
