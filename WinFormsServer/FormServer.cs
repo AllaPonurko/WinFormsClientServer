@@ -15,12 +15,13 @@ namespace WinFormsServer
         public FormServer()
         {
             InitializeComponent();
+            SocketServer socketServer = new SocketServer("127.0.0.1", Convert.ToInt32(numPort.Text));
+            socketServer.StartServer();
         }
 
         private void Start_Click(object sender, EventArgs e)
         {
-            SocketServer socketServer = new SocketServer("127.0.0.1", Convert.ToInt32(numPort.Text));
-            socketServer.StartServer();
+            
         }
     }
 }

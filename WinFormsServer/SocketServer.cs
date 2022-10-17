@@ -27,7 +27,7 @@ namespace WinFormsServer
             //отправляем клиенту текущщее время асинхронно,
             //по завершении операции отправки будет
             //вызван метод MySendCallbackFunction
-            byte[] sendBufer = Encoding.ASCII.GetBytes(DateTime.Now.ToString());
+            byte[] sendBufer = Encoding.UTF8.GetBytes(DateTime.Now.ToString());
             ns.BeginSend(sendBufer, 0, sendBufer.Length,
             SocketFlags.None,new AsyncCallback(MySendCallbackFunction),ns);
             //возобновляем асинхронный Accept
@@ -50,7 +50,7 @@ namespace WinFormsServer
             {
                 socket = new Socket(AddressFamily.InterNetwork,
                             SocketType.Stream,
-                            ProtocolType.IP);
+                            ProtocolType.Tcp);
                 socket.Bind(IPEnd);
                 socket.Listen(10);
                 //начинаем асинхронный Accept
