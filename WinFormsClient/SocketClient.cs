@@ -55,15 +55,12 @@ namespace WinFormsClient
         //    // Закрытие соединения следует вызывать уже тогда, когда передеча произошла
         //    //incomingClientSocket.Shutdown(SocketShutdown.Both);
         //    //incomingClientSocket.Close(); // По завершению работы - закрыть
-         static string adress;
-         static int port;
+         
         public SocketClient(string adress, int port)
         {
-            SocketClient.adress = adress;
-            SocketClient.port = port;
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(adress), port);
         }
-        static IPAddress ip = IPAddress.Parse(adress);
-        IPEndPoint ep = new IPEndPoint(ip,port);
+        IPEndPoint ep ;
         Socket s = new Socket(AddressFamily.InterNetwork,
         SocketType.Stream, ProtocolType.Tcp);
         public void run()
@@ -74,14 +71,14 @@ namespace WinFormsClient
                 if (s.Connected)
                 {
                     string strSend = "GET\r\n\r\n";
-                    s.Send(Encoding.UTF8.
+                    s.Send(Encoding.Unicode.
                     GetBytes(strSend));
                     byte[] buffer = new byte[1024];
                     int l;
                     do
                     {
                         l = s.Receive(buffer);
-                        MessageBox.Show(Encoding.UTF8.
+                        MessageBox.Show(Encoding.Unicode.
                         GetString(buffer, 0, l));
                         
                     } while (l > 0);

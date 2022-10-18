@@ -38,7 +38,7 @@ namespace WinFormsServer
             //по завершению отправки данных на клиента
             //закрываем сокет 
             Socket ns = (Socket)ia.AsyncState;
-            int n = ((Socket)ia.AsyncState).EndSend(ia);
+            _ = ((Socket)ia.AsyncState).EndSend(ia);
             ns.Shutdown(SocketShutdown.Send);
             ns.Close();
         }
