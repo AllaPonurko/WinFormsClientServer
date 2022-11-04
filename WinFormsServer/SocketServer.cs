@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
+using System.Collections.Generic;
+using WinFormsServer.Entities;
 
 namespace WinFormsServer
 {
@@ -21,13 +22,17 @@ namespace WinFormsServer
             //получаем ссылку на слушающий сокет
             Socket socket = (Socket)ia.AsyncState;
             //получаем сокет для обмена данными с клиентом
-            Socket ns = socket.EndAccept(ia);
+            Socket ns = socket.EndAccept(ia);//метод EndAccept возвращает новый сокет
+                                             //для связи с удалённым узлом
             //выводим  информацию о подключении
-            MessageBox.Show(ns.RemoteEndPoint.ToString());
+            MessageBox.Show(ns.RemoteEndPoint.ToString());//свойство RemoteEndPoint возвращает iP адрес
+                                                          //и порт подключения
             //отправляем клиенту текущщее время асинхронно,
             //по завершении операции отправки будет
             //вызван метод MySendCallbackFunction
-            byte[] sendBufer = Encoding.UTF8.GetBytes(DateTime.Now.ToString());
+
+            byte[] sendBufer = Encoding.Unicode.GetBytes(DateTime.Now.ToString());//данные, которые
+                                                                                  //отправляются клиенту
             ns.BeginSend(sendBufer, 0, sendBufer.Length,
             SocketFlags.None,new AsyncCallback(MySendCallbackFunction),ns);
             //возобновляем асинхронный Accept
@@ -54,13 +59,26 @@ namespace WinFormsServer
                 socket.Bind(IPEnd);
                 socket.Listen(10);
                 //начинаем асинхронный Accept
-                socket.BeginAccept(new AsyncCallback(MyAcceptCallbackFunction), socket);
+                socket.BeginAccept(new AsyncCallback(MyAcceptCallbackFunction), socket);//метод BeginAccept
+                //позволяет начать 
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
             
+        }
+        public List<string> Handling(string request)
+        {
+            var i = (from index in FormServer.db.Mies 
+                     where index.Index == Convert.ToInt32(request)
+                     select index).First();
+            var s = (from street in FormServer.db.Streets
+                     where i.Id == street.MyIndexId
+                     select street.Name).ToList<string>();
+            List<string> response=new List<string>();
+            response.AddRange(s);
+            return response;
         }
         // Task task;
         // /// <summary>

@@ -43,11 +43,11 @@ namespace WinFormsServer
             // 
             // Start
             // 
-            this.Start.Location = new System.Drawing.Point(180, 29);
+            this.Start.Location = new System.Drawing.Point(24, 139);
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(75, 23);
             this.Start.TabIndex = 1;
-            this.Start.Text = "btnStart";
+            this.Start.Text = "Добавить данные";
             this.Start.UseVisualStyleBackColor = true;
             this.Start.Click += new System.EventHandler(this.Start_Click);
             // 
